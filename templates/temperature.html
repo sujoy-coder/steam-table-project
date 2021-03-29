@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container mt-2">
+	<!-- taking input section -->
+	<div class="card shadow-lg p-3 mb-5 bg-white rounded">
+		<form action="/inputbyTemperature" method="POST" onsubmit="return validate_form()">
+		<div class="card-body">
+		<h3 class="card-title text-center text-success">Saturated Steam Table (By Temperature)</h3>
+		<p id="error-msg" class="text-center pt-1 text-danger" style="font-size: 20px;display: none;">Value of temperature should be in between 0.01 to 374.1 <sup>o</sup>C</p>
+		  	<div class="input-group my-2 py-4">
+		  		<div class="input-group-append">
+				    <p class="mx-4 my-1" style="font-size: larger;"><b>Enter Value of Saturated Temperature (Unit in <sup>o</sup>C) :</b></p>
+				</div>
+		 		<input class="form-control form-control-lg" type="number" placeholder=" Temperature range : 0.01 to 374.1 degree centegrade" id="temperature-input" name="temperature">
+			  	<div class="input-group-append">
+			    <button class="btn btn-outline-success btn-lg mx-1" type="submit">Get Values</button>
+			  	</div>
+		  	</div>
+		</div>
+		</form>
+	</div>
+	<!-- display output section -->
+	{% if ans %}
+		{% include 'result.html' %}
+	{% endif %}
+</div>
+{% endblock body %}
+
+{% block script %}    
+	<script type="text/javascript">
+		function validate_form(event) {
+			let temperature_input = document.getElementById('temperature-input');
+			let temperature_input_val = parseFloat(temperature_input.value);
+			let error_msg = document.getElementById('error-msg');
+			if (temperature_input_val>=0.01 && temperature_input_val<=374.1) {
+				error_msg.style.display = "none";
+				return true;
+			}
+			else {
+				temperature_input.focus();
+				error_msg.style.display = "block";
+				return false;
+			}
+		}
+	</script>
+{% endblock script %}
